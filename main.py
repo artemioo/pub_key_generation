@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from db import get_db
 
 app = FastAPI()
-#http://localhost:8000/
+
 origins = [
     "http://localhost:8000",
 ]
@@ -20,13 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-"""
 
-// http сервис для генерации публичного, возврат в массиве байтов из бд
-// например вставка адресса в поле, а из бд достается публ ключ єтого адресса
-
-"""
-import coincurve.keys
 @app.get("/get_pub_key/{name}")
 def get_pk(name: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.address == name).first()

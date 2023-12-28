@@ -16,4 +16,3 @@ class Base(DeclarativeBase):
 class User(Base):
     address: Mapped[str] = mapped_column(String(200), unique=True, nullable=False)
     public_key: Mapped[str] = mapped_column(LargeBinary(300), unique=True, nullable=False)
-    # created_at: Mapped[datetime] = mapped_column(DataTime(timezone=True), server_default=func.now())
