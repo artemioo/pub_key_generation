@@ -1,16 +1,12 @@
-from tinyec import registry
-import secrets
 from models import User
-import hashlib
+import coincurve.keys
 
 
 def generate_keys(address, db):
-    curve = registry.get_curve('secp256r1')
-    privKey = secrets.randbelow(curve.field.n)
-    pubKey = privKey * curve.g
-    extended_pubKey = str(pubKey.x) + '.' + str(pubKey.y)
-    hashed_key = hashlib.sha256(extended_pubKey.encode('utf-8')).hexdigest()
-    user = User(address=address, public_key=hashed_key)
+    PrivKey = coincurve.PrivateKey()
+    PublKey = coincurve.PublicKey.from_secret(PrivKey.secret)
+    result = PublKey.format()
+    user = User(address=address, public_key=result)
     db.add(user)
     db.commit()
     return user
