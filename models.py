@@ -1,32 +1,8 @@
-
-
-"""
-я ввожу адрес
-если есть совпадение - возврат публ ключа из бд
-если нет - генерация для этого адреса ключа, сохранение в бд, и возврат
-
-юзер
-адресс
-публ ключ
-дата добавления
-
-"""
-
 from datetime import datetime
 from sqlalchemy.sql import func
-from sqlalchemy import MetaData, Table, Column, Integer, String, TIMESTAMP, ForeignKey, JSON, Boolean
+from sqlalchemy import MetaData, Table, Column, Integer, String, TIMESTAMP, ForeignKey, JSON, Boolean, LargeBinary
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr
 
-# metadata = MetaData()
-#
-# user = Table(
-#     "user",
-#     metadata,
-#     Column("id", Integer, primary_key=True),
-#     Column("address", String, nullable=False),
-#     Column("public_key", String, nullable=False),
-#     Column("created_at", TIMESTAMP, default=datetime.utcnow),
-# )
 
 class Base(DeclarativeBase):
     __abstract__ = True
@@ -39,5 +15,5 @@ class Base(DeclarativeBase):
 
 class User(Base):
     address: Mapped[str] = mapped_column(String(200), unique=True, nullable=False)
-    public_key: Mapped[str] = mapped_column(String(200), unique=True, nullable=False)
+    public_key: Mapped[str] = mapped_column(LargeBinary(300), unique=True, nullable=False)
     # created_at: Mapped[datetime] = mapped_column(DataTime(timezone=True), server_default=func.now())

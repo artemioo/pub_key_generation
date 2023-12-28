@@ -31,7 +31,8 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from models import Base
-target_metadata = Base.metadata
+from db import engine
+target_metadata = Base.metadata.create_all(bind=engine, checkfirst=False)
 
 
 
